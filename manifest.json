@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Replyguy/Acc",
+  "version": "1.0",
+  "description": "Adds a ui to keep track of how many replies you made",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*", "https://x.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
