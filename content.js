@@ -65,11 +65,16 @@ function createCustomUI() {
 function updateCounterUI() {
     const counters = document.querySelectorAll('.reply-counter');
     counters.forEach(counter => {
-        const span = counter.querySelector('span');
-        const progressBar = counter.querySelector('.progress-bar');
+        // Since we no longer have a span element, update the text content directly
+        counter.textContent = `${replyCount}/${MAX_REPLIES}`;
 
-        // Update counter text
-        span.textContent = `${replyCount}/${MAX_REPLIES}`;
+        // Get or create progress bar
+        let progressBar = counter.querySelector('.progress-bar');
+        if (!progressBar) {
+            progressBar = document.createElement('div');
+            progressBar.className = 'progress-bar';
+            counter.appendChild(progressBar);
+        }
 
         // Update progress bar
         const progress = Math.min((replyCount / MAX_REPLIES) * 100, 100);
@@ -77,6 +82,10 @@ function updateCounterUI() {
 
         // Update max-reached class
         counter.classList.toggle('max-reached', replyCount >= MAX_REPLIES);
+
+        // Make sure the counter text stays on top
+        counter.style.position = 'relative';
+        counter.style.zIndex = '1';
     });
 }
 
