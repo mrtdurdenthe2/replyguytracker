@@ -22,9 +22,11 @@ It allows you to set a target reply count and track your progress.
 1. Download from the Chrome Web Store (coming soon)
 2. Or install manually:
    - Clone this repository, or go to releases and download the zip file, then unzip it
-   - Open Chrome and go to `chrome://extensions`
+   - Open Chrome or whatever browser you use and go to `chrome://extensions`
    - Enable Developer Mode
    - Click "Load unpacked" and select the extension directory
+
+   Note - wont work with firefox since it doesnt use chromium
 
 ## Usage
 
@@ -43,7 +45,7 @@ It allows you to set a target reply count and track your progress.
 
 | Light Mode | Dark Mode |
 |------------|-----------|
-| [Screenshot 1] | [Screenshot 2] |
+| <img src="lightscreenshot.png" alt="Light Mode Screenshot" width="400"/> | <img src="darkscreenshot.png" alt="Dark Mode Screenshot" width="400"/> |
 
 </details>
 
