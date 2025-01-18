@@ -1,8 +1,10 @@
 .custom-twitter-ui {
     width: 100%;
-    padding: 8px;
+    padding: 30px 8px 8px 8px;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    justify-content: left;
 }
 
 .reply-counter {
@@ -33,9 +35,28 @@
     border: 2px solid #4ade80;
 }
 
+/* Dark mode styles */
+.reply-counter.dark-mode {
+    background: #000000;
+    border: 1px solid #2f3336;
+}
+
+.reply-counter.dark-mode span {
+    background: #132e1a;
+    color: #4ade80;
+    border-color: #16a34a;
+}
+
+/* Max reached styles */
 .reply-counter.max-reached span {
     color: #dc3545;
     background: #ffe4e6;
+    border-color: #dc3545;
+}
+
+.reply-counter.dark-mode.max-reached span {
+    color: #ff4d4d;
+    background: #2c1215;
     border-color: #dc3545;
 }
 
@@ -52,6 +73,22 @@
     z-index: 0;
 }
 
+.dark-mode .progress-bar {
+    opacity: 0.15;
+}
+
 .max-reached .progress-bar {
     background: #dc3545;
+}
+
+/* Add styles for the replies text */
+.replies-text {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
+    font-size: 15px;
+    color: #536471;
+    margin-left: 4px;
+}
+
+.dark-mode + .replies-text {
+    color: #71767b;
 }

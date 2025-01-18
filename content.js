@@ -29,7 +29,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 // However that wouldnt be useful, so we need to store the replies in order to match up with what the
 // user is deleting and then if it matches up then we delete from local storage and decrement the counter
 
+// Add this function to detect dark mode
+function isDarkMode() {
+    // Check for Twitter's dark mode by looking for their dark mode background color
+    const body = document.querySelector('body');
+    if (!body) return false;
 
+    const backgroundColor = window.getComputedStyle(body).backgroundColor;
+    return backgroundColor === 'rgb(0, 0, 0)' || backgroundColor === 'rgb(21, 32, 43)';
+}
 
 // Function to create and inject our custom UI
 function createCustomUI() {
@@ -39,11 +47,15 @@ function createCustomUI() {
     // Calculate progress percentage
     const progress = Math.min((replyCount / MAX_REPLIES) * 100, 100);
 
+    // Add dark mode class if needed
+    const darkModeClass = isDarkMode() ? 'dark-mode' : '';
+
     customUI.innerHTML = `
-        <div class="reply-counter ${replyCount >= MAX_REPLIES ? 'max-reached' : ''}">
+        <div class="reply-counter ${replyCount >= MAX_REPLIES ? 'max-reached' : ''} ${darkModeClass}">
             <span>${replyCount}/${MAX_REPLIES}</span>
             <div class="progress-bar" style="width: ${progress}%"></div>
         </div>
+        <span class="replies-text">Replies</span>
     `;
 
     return customUI;
@@ -315,6 +327,22 @@ function handleDOMChanges(mutations) {
     }
 }
 
+// Add observer for theme changes
+function watchForThemeChanges() {
+    const observer = new MutationObserver((mutations) => {
+        const darkMode = isDarkMode();
+        document.querySelectorAll('.reply-counter').forEach(counter => {
+            counter.classList.toggle('dark-mode', darkMode);
+        });
+    });
+
+    // Watch for changes to body background color
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style']
+    });
+}
+
 // Function to initialize all watchers and UI
 function initialize() {
     console.log('Initializing...');
@@ -333,6 +361,9 @@ function initialize() {
             window.deletionWatcherInitialized = true;
             console.log('Deletion watcher initialized');
         }
+
+        // Set up theme change watcher
+        watchForThemeChanges();
     }, 1000);
 
     // Set up observer for dynamic content
