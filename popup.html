@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            width: 300px;
+            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background-color: #1a91da;
+        }
+
+        .reset-button {
+            background-color: #dc3545;
+        }
+
+        .reset-button:hover {
+            background-color: #c82333;
+        }
+
+        dialog {
+            padding: 20px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+        }
+
+        dialog::backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .dialog-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .dialog-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .cancel-button {
+            background-color: #6c757d;
+        }
+
+        .cancel-button:hover {
+            background-color: #5a6268;
+        }
+
+        .confirm-button {
+            background-color: #dc3545;
+        }
+
+        .confirm-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input-group">
+            <label for="maxReplies">Maximum Replies:</label>
+            <input type="number" id="maxReplies" min="1" max="1000">
+        </div>
+        <button id="saveButton">Save Settings</button>
+        <button id="resetButton" class="reset-button">Reset Counter</button>
+    </div>
+
+    <dialog id="confirmDialog">
+        <div class="dialog-content">
+            <h3>Confirm Reset</h3>
+            <p>Are you sure you want to reset the reply counter? This action cannot be undone.</p>
+            <div class="dialog-buttons">
+                <button id="cancelReset" class="cancel-button">Cancel</button>
+                <button id="confirmReset" class="confirm-button">Reset</button>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="popup.js"></script>
+</body>
+</html>

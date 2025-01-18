@@ -1,9 +1,15 @@
 {
   "manifest_version": 3,
   "name": "Replyguy/Acc",
-  "version": "1.0",
+  "version": "1.2",
   "description": "Adds a ui to keep track of how many replies you made",
-  "permissions": ["activeTab"],
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*", "https://x.com/*"],
