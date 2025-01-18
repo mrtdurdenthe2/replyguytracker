@@ -52,7 +52,7 @@ function createCustomUI() {
 
     customUI.innerHTML = `
         <div class="reply-counter ${replyCount >= MAX_REPLIES ? 'max-reached' : ''} ${darkModeClass}">
-            <span>${replyCount}/${MAX_REPLIES}</span>
+            ${replyCount}/${MAX_REPLIES}
             <div class="progress-bar" style="width: ${progress}%"></div>
         </div>
         <span class="replies-text">Replies</span>
@@ -252,33 +252,40 @@ function watchTweetButton(tweetButton) {
                 console.log('Tweet button state changed:', { wasEnabled, isDisabled });
 
                 if (wasEnabled && isDisabled) {
-                    console.log('Tweet button was clicked and disabled');
-                    setTimeout(() => {
-                        if (tweetButton.disabled) {
-                            // Find the closest textarea to get content
-                            let content = '';
-                            const container = tweetButton.closest('[role="group"]') || tweetButton.closest('form');
-                            const textarea = container?.querySelector('[data-testid="tweetTextarea_0"]');
-                            if (textarea) {
-                                content = textarea.textContent || '';
+                    // Check if the button text contains "Reply"
+                    const isReply = tweetButton.textContent?.includes('Reply');
+
+                    if (isReply) {
+                        console.log('Reply button was clicked and disabled');
+                        setTimeout(() => {
+                            if (tweetButton.disabled) {
+                                // Find the closest textarea to get content
+                                let content = '';
+                                const container = tweetButton.closest('[role="group"]') || tweetButton.closest('form');
+                                const textarea = container?.querySelector('[data-testid="tweetTextarea_0"]');
+                                if (textarea) {
+                                    content = textarea.textContent || '';
+                                }
+
+                                // Increment counter and store content
+                                replyCount = Math.min(replyCount + 1, MAX_REPLIES);
+                                replyContents.push({
+                                    content: content,
+                                    timestamp: Date.now()
+                                });
+
+                                // Update local storage
+                                localStorage.setItem('replyCount', replyCount.toString());
+                                localStorage.setItem('replyContents', JSON.stringify(replyContents));
+
+                                updateCounterUI();
+                                console.log('Reply tracked! New count:', replyCount);
+                                console.log('Stored content:', content);
                             }
-
-                            // Increment counter and store content
-                            replyCount = Math.min(replyCount + 1, MAX_REPLIES);
-                            replyContents.push({
-                                content: content,
-                                timestamp: Date.now()
-                            });
-
-                            // Update local storage
-                            localStorage.setItem('replyCount', replyCount.toString());
-                            localStorage.setItem('replyContents', JSON.stringify(replyContents));
-
-                            updateCounterUI();
-                            console.log('Reply tracked! New count:', replyCount);
-                            console.log('Stored content:', content);
-                        }
-                    }, 1000);
+                        }, 1000);
+                    } else {
+                        console.log('Not a reply button, skipping counter increment');
+                    }
                 }
             }
         });
